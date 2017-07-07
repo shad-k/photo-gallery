@@ -57,7 +57,7 @@ body {
 }
 
 
-#section1, #section2 {
+#section1, #section2, #section3 {
 	height: 100%;
 	width: 100%;
 
@@ -78,7 +78,20 @@ body {
 	animation-timing-function: ease-in;
 }
 
+.unanimate {
+	animation-name: navUnAnimation;
+	animation-duration: 1.5s;
+	animation-delay: 1s;
+	animation-fill-mode: forwards;
+	animation-timing-function: ease-in;
+}
+
 @keyframes navAnimation {
 	0% {background-color: #FFF; color: #000;}
 	100% {background-color: #000; color: #FFF; border-color: #FFF;}
+}
+
+@keyframes navUnAnimation {
+	0% {background-color: #000; color: #FFF; border-color: #FFF;}
+	100% {background-color: #FFF; color: #000;}
 }
