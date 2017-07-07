@@ -72,16 +72,14 @@ body {
 
 .animate {
 	animation-name: navAnimation;
-	animation-duration: 1.5s;
-	animation-delay: 1s;
+	animation-duration: 0.5s;
 	animation-fill-mode: forwards;
 	animation-timing-function: ease-in;
 }
 
 .unanimate {
 	animation-name: navUnAnimation;
-	animation-duration: 1.5s;
-	animation-delay: 1s;
+	animation-duration: 0.5s;
 	animation-fill-mode: forwards;
 	animation-timing-function: ease-in;
 }
