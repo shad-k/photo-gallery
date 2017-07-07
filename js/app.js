@@ -1,11 +1,10 @@
 $(function() {
 	$('#section2').on('scrollSpy:enter', function() {
-		$(".nav").addClass("animate");
-		$(".nav").css("background-color", "#FFF");
+		$(".navElement").addClass("animate");
 	});
 
 	$('#section2').on('scrollSpy:exit', function() {
-		$(".nav").removeClass("animate");
+		$(".navElement").removeClass("animate");
 	});
 
 	$('#section2').scrollSpy();
