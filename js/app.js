@@ -23,16 +23,19 @@ $(function() {
 				if(scroll < sectionTop ) {
 					if ($(".navElement").hasClass("animate")) {
 						$(".navElement").removeClass("animate").addClass("unanimate");
+						$(".navText").css("color", "#000");
 					}
 				} else if(scroll > sectionBottom) {
 					if ($(".navElement").hasClass("animate")) {
 						$(".navElement").removeClass("animate").addClass("unanimate");
+						$(".navText").css("color", "#000");
 					}
 				} else if(scroll > sectionTop) {
 					if ($(".navElement").hasClass("unanimate")) {
 						$(".navElement").removeClass("unanimate");
 					}
 					$(".navElement").addClass("animate");
+					$(".navText").css("color", "#FFF");
 				}
 			});
 		}

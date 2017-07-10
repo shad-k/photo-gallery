@@ -25,6 +25,11 @@ body {
 }
 
 
+.link {
+	text-decoration: none;
+}
+
+
 .nav {
 	margin-bottom: 1%;
 	width: 100%;
@@ -44,7 +49,7 @@ body {
 	display: flex;
 	align-items: center;
 	width: 33.33%;
-
+	color: #000;
 	border: 1px solid #000;
 	display: flex;
 	justify-content: space-around;
@@ -52,6 +57,7 @@ body {
 
 
 .navText {
+	color: #000;
 	font-weight: bold;
 	font-size: 1.5em;
 }
@@ -89,7 +95,48 @@ body {
 	100% {background-color: #000; color: #FFF; border-color: #FFF;}
 }
 
+
 @keyframes navUnAnimation {
 	0% {background-color: #000; color: #FFF; border-color: #FFF;}
 	100% {background-color: #FFF; color: #000;}
+}
+
+
+.artist {
+	position: relative;
+	top: 12%;
+	height: 85%;
+	width: 100%;
+
+	display: flex;
+	justify-content: space-between;
+}
+
+
+.photoDiv {
+	width: 40%;
+	height: 100%;
+}
+
+
+.descriptionDiv {
+	width: 50%;
+	height: 100%;
+}
+
+
+.photo {
+	border: 1px solid #FFF;
+	border-radius: 10%;
+	height: 70%;
+	width: 100%;
+	margin-left: 20px;
+}
+
+
+.description {
+	color: #FFF;
+	font-size: 2em;
+	font-weight: bold;
+	font-style: italic;
 }
