@@ -25,11 +25,6 @@ body {
 }
 
 
-.link {
-	text-decoration: none;
-}
-
-
 .nav {
 	margin-bottom: 1%;
 	width: 100%;
@@ -57,7 +52,6 @@ body {
 
 
 .navText {
-	color: #000;
 	font-weight: bold;
 	font-size: 1.5em;
 }
