@@ -134,3 +134,18 @@ body {
 	font-weight: bold;
 	font-style: italic;
 }
+
+
+.galleryDiv {
+	position: relative;
+	top: 12%;
+
+}
+
+
+.photosDiv {
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+	flex-wrap: wrap;
+}
