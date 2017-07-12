@@ -4,9 +4,11 @@ $(function() {
 		init: function() {
 			return this.getUnsplashData()
 				.then(function(response) {
-					if(!response.ok) {
-						throw Error(response.responseText);
-					}
+					response.forEach(function(res) {
+						if(!res.ok) {
+							throw Error(response.responseText);
+						}
+					});
 					return response;
 				}).then(function(response) {
 					var arr = [];
@@ -61,6 +63,18 @@ $(function() {
 
 			// Animates scroll on click on nav bar elements
 			this.setClickOnNav();
+
+			// Enlarge to gallery on click on thumbnail
+			this.openGallery();
+
+			// Close gallery when close is clicked
+			$(".closeGallery").click(function() {
+				$(".gallerySection").animate({
+					"right": "100%"
+				});
+			});
+
+
 		},
 		setCustomScrollSpy: function() {
 			var sectionTop = $("#section2").offset().top;
@@ -123,7 +137,18 @@ $(function() {
 				'</div>';
 			$(".photosDiv").append(html);
 		},
+		openGallery: function() {
+			console.log("addevent");
+			$(".photosDiv").on("click", ".photos", function() {
+				var id = $(this).attr("id");
+				console.log(id);
 
+				$(".gallerySection").animate({
+					right: "0%",
+					top: $("#section2").offset().top
+				}, 500);
+			});
+		}
 	};
 
 	// Initiate the app
