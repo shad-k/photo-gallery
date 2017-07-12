@@ -2,15 +2,21 @@ $(function() {
 	// Gets data from the Unsplash API and serves it to the App
 	var Data = {
 		init: function() {
-			return this.getUnsplashData().then(function(response) {
-				var arr = [];
-				response.forEach(function(photo) {
-					arr.push(photo.json());
+			return this.getUnsplashData()
+				.then(function(response) {
+					if(!response.ok) {
+						throw Error(response.responseText);
+					}
+					return response;
+				}).then(function(response) {
+					var arr = [];
+					response.forEach(function(photo) {
+						arr.push(photo.json());
+					});
+					return arr;
+				}).catch(function(error) {
+					alert("Cannot connect to Unsplash: " + error);
 				});
-				return arr;
-			}).catch(function(error) {
-				alert(error);
-			});
 
 		},
 		getUnsplashData: function() {
@@ -106,15 +112,18 @@ $(function() {
 			});
 		},
 		populateGallery: function(photo) {
-			let i = 0;
+			if( typeof i == 'undefined' ) {
+        		i = 0;
+    		}
 			this.photos.push(photo);
 
-			var html = '<div class="photos">' +
+			var html = '<div class="photos" id=' + i++ + '>' +
 					'<img src="' + photo[0].urls.thumb
-					+ '" alt="" class="thumb" id=' + i++ + '>' +
+					+ '" alt="" class="thumb">' +
 				'</div>';
 			$(".photosDiv").append(html);
-		}
+		},
+
 	};
 
 	// Initiate the app
