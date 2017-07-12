@@ -1,43 +1,54 @@
 $(function() {
 	// Gets data from the Unsplash API and serves it to the App
 	var Data = {
-		photos:[],
 		init: function() {
-			this.getUnsplashData();
-			console.log(this.photos);
+			return this.getUnsplashData().then(function(response) {
+				var arr = [];
+				response.forEach(function(photo) {
+					arr.push(photo.json());
+				});
+				return arr;
+			}).catch(function(error) {
+				alert(error);
+			});
+
 		},
 		getUnsplashData: function() {
 			var applicationId = "5770f078e5fdb0501d809bb170d4e1f6fb4ae42e165463ece323f9ef9563c5bb";
 			var secret = "3db9df5fd874cf75db46e61025edfc0aacd7f45fb9b7c21bb567676d8b15fbb2";
-			for(let i = 1; i <= 4; i++) {
+			var arrayOfPromises = [];
+			for(let i = 1; i <= 2; i++) {
 				var url = 'https://api.unsplash.com/photos/?page=' + i +
 					"&client_id=" + applicationId + "&client_secret=" + secret;
-				console.log(url);
-				$.ajax({
-					url: url,
-					method: 'GET',
-					success: function(response) {
-						Data.photos.push(response);
-					},
-					error: function(error) {
-						alert("Cannot connect to Unsplash: ", error);
-					}
-				});
+				arrayOfPromises.push(fetch(url, {method: "GET"}));
 			}
+			return Promise.all(arrayOfPromises);
 		}
 	};
 
 	// Controls the app
 	var App = {
 		init: function() {
-			Data.init();
 			View.init();
+			var unsplashData = [];
+			Data.init().then(function(photos) {
+				photos.forEach(function(photo) {
+					photo.then(function(data) {
+						unsplashData.push(data);
+					});
+				});
+			}).then(function() {
+				// Populate the gallery with photos
+				View.populateGallery(unsplashData);
+			});
+
 		}
 	}
 
 	// This module takes care of the view
 	var View = {
-		init: function() {
+		photos: [],
+		init: function(photos) {
 			/* Activates custom scroll spy, the nav bar changes color
 			 * on scroll
 			 */
@@ -93,6 +104,18 @@ $(function() {
 			$(".contact").click(function() {
 				var contact = $("#section3").offset().top;
 				$("html, body").animate({scrollTop: contact}, 500);
+			});
+		},
+		populateGallery: function(photos) {
+			var i = 0;
+			this.photos = photos;
+
+			photos.forEach(function(photo) {
+				var html = '<div class="photos">' +
+						'<img src="' + photos[0].urls.thumb
+						+ '" alt="" class="thumb" id=' + i++ + '>' +
+					'</div>';
+				$(".photosDiv").append(html);
 			});
 		}
 	};
