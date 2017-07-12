@@ -17,7 +17,7 @@ $(function() {
 			var applicationId = "5770f078e5fdb0501d809bb170d4e1f6fb4ae42e165463ece323f9ef9563c5bb";
 			var secret = "3db9df5fd874cf75db46e61025edfc0aacd7f45fb9b7c21bb567676d8b15fbb2";
 			var arrayOfPromises = [];
-			for(let i = 1; i <= 2; i++) {
+			for(let i = 1; i <= 4; i++) {
 				var url = 'https://api.unsplash.com/photos/?page=' + i +
 					"&client_id=" + applicationId + "&client_secret=" + secret;
 				arrayOfPromises.push(fetch(url, {method: "GET"}));
@@ -30,16 +30,15 @@ $(function() {
 	var App = {
 		init: function() {
 			View.init();
-			var unsplashData = [];
 			Data.init().then(function(photos) {
+				var unsplashData = [];
 				photos.forEach(function(photo) {
 					photo.then(function(data) {
-						unsplashData.push(data);
+						// unsplashData.push(data);
+						View.populateGallery(data);
 					});
 				});
-			}).then(function() {
-				// Populate the gallery with photos
-				View.populateGallery(unsplashData);
+
 			});
 
 		}
@@ -106,17 +105,15 @@ $(function() {
 				$("html, body").animate({scrollTop: contact}, 500);
 			});
 		},
-		populateGallery: function(photos) {
-			var i = 0;
-			this.photos = photos;
+		populateGallery: function(photo) {
+			let i = 0;
+			this.photos.push(photo);
 
-			photos.forEach(function(photo) {
-				var html = '<div class="photos">' +
-						'<img src="' + photos[0].urls.thumb
-						+ '" alt="" class="thumb" id=' + i++ + '>' +
-					'</div>';
-				$(".photosDiv").append(html);
-			});
+			var html = '<div class="photos">' +
+					'<img src="' + photo[0].urls.thumb
+					+ '" alt="" class="thumb" id=' + i++ + '>' +
+				'</div>';
+			$(".photosDiv").append(html);
 		}
 	};
 
