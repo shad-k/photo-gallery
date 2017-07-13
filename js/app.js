@@ -38,7 +38,7 @@ $(function() {
 
 			// Fetch pages of photos
 			var arrayOfPromises = [];
-			for(let i = 1; i <= 1; i++) {
+			for(let i = 1; i <= 4; i++) {
 				var url = 'https://api.unsplash.com/photos/?page=' + i +
 					"&client_id=" + applicationId + "&client_secret=" + secret;
 				arrayOfPromises.push(fetch(url, {method: "GET"}));
@@ -53,14 +53,15 @@ $(function() {
 		init: function() {
 			// Setup the View
 			View.init();
-
+			var i = 0;
 			// Fetch data
 			Data.init().then(function(photos) {
 				var unsplashData = [];
 				photos.forEach(function(photo) {
 					photo.then(function(data) {
+						console.log(i);
 						// Populate the Gallery
-						View.populateGallery(data);
+						View.populateGallery(data, i++);
 					});
 				});
 
@@ -89,6 +90,9 @@ $(function() {
 				$(".gallerySection").animate({
 					"right": "100%"
 				});
+				$("html, body").animate({
+					scrollTop: $("#section2").offset().top
+				}, 1);
 			});
 
 
@@ -142,32 +146,34 @@ $(function() {
 				$("html, body").animate({scrollTop: contact}, 500);
 			});
 		},
-		populateGallery: function(photo) {
-			// Make variable i store its state
-			if( typeof i == 'undefined' ) {
-        		i = 0;
-    		}
+		populateGallery: function(photo, i) {
 
-			var html = '<div class="photos" id=' + i++ + '>' +
+			var html = '<div class="photos" id=' + i + '>' +
 					'<img src="' + photo[0].urls.thumb
 					+ '" alt="" class="thumb">' +
 				'</div>';
 			// Add a new photos div
 			$(".photosDiv").append(html);
 
-			View.preloadImages(photo);
+			View.preloadImages(photo, i);
 		},
 		openGallery: function() {
 			// Click handler for opening gallery section
 			$(".photosDiv").on("click", ".photos", function() {
 				var id = $(this).attr("id");
+				console.log(id);
 
-				var img = View.photos[id][0];
+				// var img = View.photos[id][0];
+				// console.log(img);
 
-				$(img).css({
-					height: "100%",
-					width: "100%"
-				});
+				// $(img).css({
+				// 	height: "100%",
+				// 	width: "100%"
+				// });
+
+				$(".gallerySection").html("");
+
+				$(".closeGallery").css({"display": "flex"});
 
 				$(".gallerySection").append(View.photos[id]);
 
@@ -181,9 +187,8 @@ $(function() {
 				$(".unsplashImage").on("DOMMouseScroll wheel touchmove", function(event) {
 					event.preventDefault();
 					var currentScroll = new Date().getTime();
-					if(currentScroll - lastScroll > 1000) {
+					if(currentScroll - lastScroll > 2000) {
 						if(event.originalEvent.deltaY >= 1) {
-							console.log(i);
 							if(i < View.photos[id].length) {
 								// $(img).attr("src", View.photos[id][++i].currentSrc);
 								$("html, body").animate({
@@ -191,7 +196,7 @@ $(function() {
 								}, 500);
 							}
 						} else if(event.originalEvent.deltaY <= -1) {
-							if(i >= 0) {
+							if(i > 0) {
 								$("html, body").animate({
 									scrollTop: $("#img" + --i).offset().top
 								}, 500);
@@ -206,12 +211,10 @@ $(function() {
 				});
 			});
 		},
-		preloadImages: function(photos) {
-			var i = i || 0;
+		preloadImages: function(photos, i) {
 			View.photos.push([]);
 			var j = 0;
 			photos.forEach(function(photo) {
-				// console.log(photo);
 				var img = new Image();
 				img.src = photo.urls.regular;
 				$(img).attr("id", "img" + j++);
