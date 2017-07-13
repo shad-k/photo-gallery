@@ -93,7 +93,7 @@ $(function() {
 				$("html, body").animate({
 					scrollTop: $("#section2").offset().top
 				}, 1);
-				$(".closeGallery").css({"display": "none"});
+				$(this).css({"display": "none"});
 			});
 
 
